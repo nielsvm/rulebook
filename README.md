@@ -4,7 +4,7 @@ This application allows you to define profiles for your KDE 4 desktop, similarly
 ![Toggle between day and night](anim.gif "Toggle between day and night")
 
 ## Simple day/night example
-```
+```yaml
 DAY:
   title: "Day"
   description: "Light colored profile."
@@ -28,7 +28,7 @@ NIGHT:
 ```
 
 ## Example with nested, dependent, rules.
-```
+```yaml
   rules:
     - kde.colorscheme: "$KDEDATA/color-schemes/Oxygen.colors"
     - yakuake.default_profile:
