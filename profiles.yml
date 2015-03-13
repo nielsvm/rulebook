@@ -5,6 +5,7 @@ DAY:
     - kde.notify: "Switching to daylight profile..."
     - plasma.theme: "default"
     - plasma.wallpaper: "$KDEWALLPAPER/Castilla_Sky/"
+    - kde.widget_style: "oxygen"
     - kde.colorscheme: "$KDEDATA/color-schemes/Oxygen.colors"
     - kde.notify: "Done!"
 NIGHT:
@@ -14,5 +15,6 @@ NIGHT:
     - kde.notify: "Switching to night profile..."
     - plasma.theme: "oxygen"
     - plasma.wallpaper: "$KDEWALLPAPER/Prato/"
+    - kde.widget_style: "cleanlooks"
     - kde.colorscheme: "$KDEDATA/color-schemes/WontonSoup.colors"
     - kde.notify: "Done!"

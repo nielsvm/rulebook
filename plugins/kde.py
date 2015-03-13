@@ -51,3 +51,19 @@ def notify(text, title = application.NAME):
     knotify = kdeapp.get_dbus_object('org.kde.knotify', '/Notify')
     knotify.event("warning", "kde", [], title, text, [], [], 0, 0, dbus_interface="org.kde.KNotify")
     return True
+
+@register_action
+def widget_style(style_name):
+    """Change KDE's widget style to the style given."""
+    kdeglobals = KConfig("kdeglobals")
+    group = kdeglobals.group('General')
+    group.writeEntry('widgetStyle', style_name)
+    kdeglobals.sync()
+    KGlobalSettings.emitChange(KGlobalSettings.PaletteChanged)
+    KGlobalSettings.emitChange(KGlobalSettings.StyleChanged)
+    KGlobalSettings.emitChange(KGlobalSettings.SettingsChanged)
+    if kdeapp.running_dbus('org.kde.plasma-desktop'):
+        p = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
+        p.reparseConfiguration()
+    kdeapp.restart('org.kde.krunner', 'krunner')
+    return True
