@@ -23,24 +23,24 @@ DAY:
          - call.script: "$HOME/.config/autostart/yakuake.sh"
     - plasma.notify: "Done!"
 NIGHT:
-    title: "Night"
-    description: "Dark colored profile."
-    rules:
-      - plasma.notify: "Switching to night profile..."
-      - atomio.config_find_replace:
-        - "atom-light-ui"
-        - "one-dark-ui"
-      - atomio.config_find_replace:
-        - "solarized-light-syntax"
-        - "solarized-dark-syntax"
-      - plasma.wallpaper: "$KDEWALLPAPER/Prato/"
-      - plasma.colorscheme: "$KDEDATA/color-schemes/ObsidianCoast.colors"
-      - konsole.default_profile:
-        - "night.profile"
-        - konsole.restart:
-          - plasma.notify: "Restarted konsole"
-      - yakuake.default_profile:
-         - "night.profile"
-         - yakuake.restart:
-           - call.script: "$HOME/.config/autostart/yakuake.sh"
-      - plasma.notify: "Done!"
+  title: "Night"
+  description: "Dark colored profile."
+  rules:
+    - plasma.notify: "Switching to night profile..."
+    - atomio.config_find_replace:
+      - "atom-light-ui"
+      - "one-dark-ui"
+    - atomio.config_find_replace:
+      - "solarized-light-syntax"
+      - "solarized-dark-syntax"
+    - plasma.wallpaper: "$KDEWALLPAPER/Prato/"
+    - plasma.colorscheme: "$KDEDATA/color-schemes/ObsidianCoast.colors"
+    - konsole.default_profile:
+      - "night.profile"
+      - konsole.restart:
+        - plasma.notify: "Restarted konsole"
+    - yakuake.default_profile:
+       - "night.profile"
+       - yakuake.restart:
+         - call.script: "$HOME/.config/autostart/yakuake.sh"
+    - plasma.notify: "Done!"
