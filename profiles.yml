@@ -9,13 +9,16 @@ DAY:
       - "solarized-dark-syntax"
       - "solarized-light-syntax"
     # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
-    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
-    - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
+    - plasma.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
+    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
     - plasma.colorscheme: "$KDEDIR/share/apps/color-schemes/SoftMetalColder.colors"
-    - konsole.dfltprofile: "day.profile"
-    - yakuake.dfltprofile:
+    - konsole.default_profile:
+      - "day.profile"
+      - konsole.restart:
+    - yakuake.default_profile:
        - "day.profile"
-       - call.script: "$HOME/.config/autostart/yakuake.sh"
+       - yakuake.restart:
+         - call.script: "$HOME/.config/autostart/yakuake.sh"
 NIGHT:
     title: "Night"
     description: "Dark colored profile."
@@ -28,7 +31,10 @@ NIGHT:
         - "solarized-dark-syntax"
       - plasma.wallpaper: "/usr/share/wallpapers/Prato/"
       - plasma.colorscheme: "/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors"
-      - konsole.dfltprofile: "night.profile"
-      - yakuake.dfltprofile:
+      - konsole.default_profile:
+        - "night.profile"
+        - konsole.restart:
+      - yakuake.default_profile:
          - "night.profile"
-         - call.script: "$HOME/.config/autostart/yakuake.sh"
+         - yakuake.restart:
+           - call.script: "$HOME/.config/autostart/yakuake.sh"

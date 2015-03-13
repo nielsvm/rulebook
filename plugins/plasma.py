@@ -19,6 +19,7 @@ def colorscheme(scheme_path):
     KGlobalSettings.emitChange(KGlobalSettings.PaletteChanged)
     KGlobalSettings.emitChange(KGlobalSettings.StyleChanged)
     KGlobalSettings.emitChange(KGlobalSettings.SettingsChanged)
+    kdeapp.restart('org.kde.systemsettings', 'systemsettings')
     kdeapp.restart('org.kde.plasma-desktop', 'plasma-desktop')
     kdeapp.restart('org.kde.krunner', 'krunner')
     return True
