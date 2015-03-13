@@ -1,10 +1,10 @@
 from os import unlink
 from os.path import isfile
-from core import path
+from core import path, application
 
 def acquire():
     """Acquire a lock to execute the program."""
-    lockfile = path.user('.toggle-desktop.lock')
+    lockfile = path.user('.%s.lock' % application.NAME)
     if isfile(lockfile):
         return False
     with open(lockfile, 'w') as lock:
@@ -14,7 +14,7 @@ def acquire():
 
 def release():
     """Release the lock once the program is finished."""
-    lockfile = path.user('.toggle-desktop.lock')
+    lockfile = path.user('.%s.lock' % application.NAME)
     if isfile(lockfile):
         unlink(lockfile)
         return True

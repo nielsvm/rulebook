@@ -6,7 +6,7 @@ def ATOMDIR():
     return user('.atom')
 
 @register_rule_action
-def path_replace(path, find, replace):
+def find_replace(path, find, replace):
     """Rewrite a value in one of Atom's cson configuration files."""
     path = rewrite(path)
     new = []
@@ -19,6 +19,6 @@ def path_replace(path, find, replace):
     return True
 
 @register_rule_action
-def config(find, replace):
+def config_find_replace(find, replace):
     """Rewrite a value in ~/.atom/config.cson."""
-    return path_replace('$ATOMDIR/config.cson', find, replace)
+    return find_replace('$ATOMDIR/config.cson', find, replace)

@@ -1,7 +1,7 @@
 import yaml
 from os.path import isfile
 from plugins import *
-from core import exit, path, profile
+from core import exit, path, profile, application
 
 class Profiles():
     """
@@ -13,9 +13,9 @@ class Profiles():
         self.statefile = None
         self.profiles = []
         self.current = 0
-        
+
         # Load the current profile if its set in the statefile.
-        self.statefile = path.user('.toggle-desktop')
+        self.statefile = path.user('.%s.current' % application.NAME)
         if isfile(self.statefile):
             with open(self.statefile, 'r') as state:
                 self.current = int(state.read())

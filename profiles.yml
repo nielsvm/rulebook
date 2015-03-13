@@ -2,33 +2,33 @@ DAY:
   title: "Day"
   description: "Light colored profile."
   rules:
-    - atomio.config:
+    - atomio.config_find_replace:
       - "one-dark-ui"
       - "atom-light-ui"
-    - atomio.config:
+    - atomio.config_find_replace:
       - "solarized-dark-syntax"
       - "solarized-light-syntax"
-    # - kde4.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
-    # - kde4.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
-    - kde4.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
-    - kde4.colorscheme: "$KDEDIR/share/apps/color-schemes/SoftMetalColder.colors"
-    - kde4.konsole: "day.profile"
-    - kde4.yakuake:
+    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
+    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
+    - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
+    - plasma.colorscheme: "$KDEDIR/share/apps/color-schemes/SoftMetalColder.colors"
+    - konsole.dfltprofile: "day.profile"
+    - yakuake.dfltprofile:
        - "day.profile"
        - call.script: "$HOME/.config/autostart/yakuake.sh"
 NIGHT:
     title: "Night"
     description: "Dark colored profile."
     rules:
-      - atomio.config:
+      - atomio.config_find_replace:
         - "atom-light-ui"
         - "one-dark-ui"
-      - atomio.config:
+      - atomio.config_find_replace:
         - "solarized-light-syntax"
         - "solarized-dark-syntax"
-      - kde4.wallpaper: "/usr/share/wallpapers/Prato/"
-      - kde4.colorscheme: "/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors"
-      - kde4.konsole: "night.profile"
-      - kde4.yakuake:
+      - plasma.wallpaper: "/usr/share/wallpapers/Prato/"
+      - plasma.colorscheme: "/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors"
+      - konsole.dfltprofile: "night.profile"
+      - yakuake.dfltprofile:
          - "night.profile"
          - call.script: "$HOME/.config/autostart/yakuake.sh"
