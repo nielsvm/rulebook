@@ -1,22 +1,37 @@
-action_registry = {}
+import subprocess
+from core import exit
 
-def register_rule_action(f):
+registry = {}
+blacklist = []
+
+def check_binary(binary):
+    """Checks if the binary the action requires is found."""
+    opt = {'shell': True, 'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE}
+    def check_binary_decorator(f):
+        if not subprocess.call("type %s" % binary, **opt) == 0:
+            blacklist.append({'f': f, 'binary': binary})
+        return f
+    return check_binary_decorator
+
+def register_action(f):
     """Registers functions that provide a callable rule action."""
     module = f.__module__.replace('plugins.', '')
     id = "%s.%s" % (module, f.__name__)
-    add(id, f)
+    registry[id] = f
     return f
 
-def add(id, f):
-    """Adds a action callable function to the registry."""
-    action_registry[id] = f
 
 def get(id):
     """Retrieves the action from the registry."""
     if has(id):
-        return action_registry[id]
+        return registry[id]
     return None
 
 def has(id):
     """Checks if the id exists in the action registry."""
-    return id in action_registry
+    if id in registry:
+        for action in blacklist:
+            if registry[id] == action['f']:
+                exit("Action '%s' exists, but needs binary '%s' installed!" % (id, action['binary']))
+        return True
+    return False

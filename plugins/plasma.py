@@ -1,10 +1,10 @@
 from os import system
 from PyKDE4.kdecore import KConfig
 from PyKDE4.kdeui import KGlobalSettings
-from core.action import register_rule_action
-from core import kdeapp
+from core.action import register_action, check_binary
+from core import kdeapp, application
 
-@register_rule_action
+@register_action
 def colorscheme(scheme_path):
     """Change KDE's global color scheme to the provided scheme."""
     scheme = KConfig(scheme_path)
