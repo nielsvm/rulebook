@@ -2,45 +2,17 @@ DAY:
   title: "Day"
   description: "Light colored profile."
   rules:
-    - plasma.notify: "Switching to daylight profile..."
-    - atomio.config_find_replace:
-      - "one-dark-ui"
-      - "atom-light-ui"
-    - atomio.config_find_replace:
-      - "solarized-dark-syntax"
-      - "solarized-light-syntax"
-    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
-    - plasma.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
-    # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
-    - plasma.colorscheme: "$KDEDATA/color-schemes/SoftMetalColder.colors"
-    - konsole.default_profile:
-      - "day.profile"
-      - konsole.restart:
-        - plasma.notify: "Restarted konsole"
-    - yakuake.default_profile:
-       - "day.profile"
-       - yakuake.restart:
-         - call.script: "$HOME/.config/autostart/yakuake.sh"
-    - plasma.notify: "Done!"
+    - kde.notify: "Switching to daylight profile..."
+    - plasma.theme: "default"
+    - plasma.wallpaper: "$KDEWALLPAPER/Castilla_Sky/"
+    - kde.colorscheme: "$KDEDATA/color-schemes/Oxygen.colors"
+    - kde.notify: "Done!"
 NIGHT:
   title: "Night"
   description: "Dark colored profile."
   rules:
-    - plasma.notify: "Switching to night profile..."
-    - atomio.config_find_replace:
-      - "atom-light-ui"
-      - "one-dark-ui"
-    - atomio.config_find_replace:
-      - "solarized-light-syntax"
-      - "solarized-dark-syntax"
+    - kde.notify: "Switching to night profile..."
+    - plasma.theme: "oxygen"
     - plasma.wallpaper: "$KDEWALLPAPER/Prato/"
-    - plasma.colorscheme: "$KDEDATA/color-schemes/ObsidianCoast.colors"
-    - konsole.default_profile:
-      - "night.profile"
-      - konsole.restart:
-        - plasma.notify: "Restarted konsole"
-    - yakuake.default_profile:
-       - "night.profile"
-       - yakuake.restart:
-         - call.script: "$HOME/.config/autostart/yakuake.sh"
-    - plasma.notify: "Done!"
+    - kde.colorscheme: "$KDEDATA/color-schemes/WontonSoup.colors"
+    - kde.notify: "Done!"

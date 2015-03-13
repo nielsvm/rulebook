@@ -1,34 +1,28 @@
 from os import system
 from PyKDE4.kdecore import KConfig
-from PyKDE4.kdeui import KGlobalSettings
 from core.action import register_action, check_binary
-from core import kdeapp, application
+from core import kdeapp
 
+@check_binary("plasma-desktop")
 @register_action
-def colorscheme(scheme_path):
-    """Change KDE's global color scheme to the provided scheme."""
-    scheme = KConfig(scheme_path)
-    kdeglobals = KConfig('kdeglobals')
-    for groupName in scheme.groupList():
-        group = scheme.group(groupName)
-        global_group = kdeglobals.group(groupName)
-        for (k, v) in group.entryMap().items():
-            global_group.writeEntry(k, v)
-    kdeglobals.sync()
-    KGlobalSettings.emitChange(KGlobalSettings.PaletteChanged)
-    KGlobalSettings.emitChange(KGlobalSettings.StyleChanged)
-    KGlobalSettings.emitChange(KGlobalSettings.SettingsChanged)
-    kdeapp.restart('org.kde.systemsettings', 'systemsettings')
+def theme(theme_name):
+    """Set Plasma's theme to the theme provided."""
+    config = KConfig("plasmarc")
+    group = config.group('Theme')
+    group.writeEntry('name', theme_name)
+    config.sync()
+    reload()
+
+@check_binary("plasma-desktop")
+@register_action
+def reload():
+    """Reload plasma's configuration."""
     kdeapp.restart('org.kde.krunner', 'krunner')
-    restart()
-    return True
-
-@register_action
-def notify(text, title = application.NAME):
-    """Send a desktop notification."""
-    knotify = kdeapp.get_dbus_object('org.kde.knotify', '/Notify')
-    knotify.event("warning", "kde", [], title, text, [], [], 0, 0, dbus_interface="org.kde.KNotify")
-    return True
+    if kdeapp.running_dbus('org.kde.plasma-desktop'):
+        p = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
+        p.reparseConfiguration()
+        return True
+    return False
 
 @check_binary("plasma-desktop")
 @register_action
@@ -53,5 +47,6 @@ def wallpaper(wallpaper_path):
         plasma = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/App')
         plasma.loadScriptInInteractiveConsole(tmpfile)
         system('xdotool search --name "Shell Scripting Console" windowactivate key control+e control+w')
+        reload()
         return True
     return False
