@@ -1,0 +1,34 @@
+DAY:
+  title: "Day"
+  description: "Light colored profile."
+  rules:
+    - atomio.config:
+      - "one-dark-ui"
+      - "atom-light-ui"
+    - atomio.config:
+      - "solarized-dark-syntax"
+      - "solarized-light-syntax"
+    # - kde4.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
+    # - kde4.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
+    - kde4.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
+    - kde4.colorscheme: "$KDEDIR/share/apps/color-schemes/SoftMetalColder.colors"
+    - kde4.konsole: "day.profile"
+    - kde4.yakuake:
+       - "day.profile"
+       - call.script: "$HOME/.config/autostart/yakuake.sh"
+NIGHT:
+    title: "Night"
+    description: "Dark colored profile."
+    rules:
+      - atomio.config:
+        - "atom-light-ui"
+        - "one-dark-ui"
+      - atomio.config:
+        - "solarized-light-syntax"
+        - "solarized-dark-syntax"
+      - kde4.wallpaper: "/usr/share/wallpapers/Prato/"
+      - kde4.colorscheme: "/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors"
+      - kde4.konsole: "night.profile"
+      - kde4.yakuake:
+         - "night.profile"
+         - call.script: "$HOME/.config/autostart/yakuake.sh"
