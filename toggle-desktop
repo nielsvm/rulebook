@@ -1,0 +1,26 @@
+#!/usr/bin/python3
+import os, core.profile
+from core.path import *
+from mods import kde4, atomio
+
+def day():
+    atomio.config('one-dark-ui', 'atom-light-ui')
+    atomio.config('solarized-dark-syntax', 'solarized-light-syntax')
+    # kde.wallpaper(user('doc/pic/wallpaper/rotterdam/centraal.jpg'))
+    # kde.wallpaper(user('doc/pic/wallpaper/Nature/lavender-field.jpg'))
+    kde4.wallpaper(user('doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg'))
+    kde4.colorscheme(user('.kde/share/apps/color-schemes/SoftMetalColder.colors'))
+    kde4.konsole('day.profile')
+    if kde4.yakuake('day.profile'):
+        os.system(user('.config/autostart/yakuake.sh'))
+
+def night():
+    atomio.config('atom-light-ui', 'one-dark-ui')
+    atomio.config('solarized-light-syntax', 'solarized-dark-syntax')
+    kde4.wallpaper('/usr/share/wallpapers/Prato/')
+    kde4.colorscheme('/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors')
+    kde4.konsole('night.profile')
+    if kde4.yakuake('night.profile'):
+        os.system(user('.config/autostart/yakuake.sh'))
+
+core.profile.load([day, night])

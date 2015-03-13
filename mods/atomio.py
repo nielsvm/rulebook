@@ -1,6 +1,7 @@
+from core import path
 
-def replace(path, find, replace):
-    """Rewrite a value in Atom's cson configuration files."""
+def path_replace(path, find, replace):
+    """Rewrite a value in one of Atom's cson configuration files."""
     new = []
     with open(path, 'r') as old:
         for line in old:
@@ -8,3 +9,7 @@ def replace(path, find, replace):
     with open(path, 'w') as pathnew:
         pathnew.write(''.join(new))
         pathnew.close()
+
+def config(find, replace):
+    """Rewrite a value in ~/.atom/config.cson."""
+    path_replace(path.user('.atom/config.cson'), find, replace)
