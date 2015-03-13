@@ -29,7 +29,6 @@ NIGHT:
 
 ## Example with nested, dependent, rules.
 ```
-...
   rules:
     - kde.colorscheme: "$KDEDATA/color-schemes/Oxygen.colors"
     - yakuake.default_profile:
@@ -37,5 +36,4 @@ NIGHT:
       - yakuake.restart:
         - kde.notify: "Restarted yakuake"
     - plasma.restart:
-...
 ```
