@@ -2,7 +2,7 @@ from os import system
 from time import sleep
 import dbus, psutil
 
-def get_object(bus_name, path):
+def get_dbus_object(bus_name, path):
     """Short-hand for returning a D-BUS object on the session bus."""
     return dbus.SessionBus().get_object(bus_name, path)
 

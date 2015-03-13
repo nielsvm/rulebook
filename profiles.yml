@@ -2,6 +2,7 @@ DAY:
   title: "Day"
   description: "Light colored profile."
   rules:
+    - plasma.notify: "Switching to daylight profile..."
     - atomio.config_find_replace:
       - "one-dark-ui"
       - "atom-light-ui"
@@ -15,14 +16,17 @@ DAY:
     - konsole.default_profile:
       - "day.profile"
       - konsole.restart:
+        - plasma.notify: "Restarted konsole"
     - yakuake.default_profile:
        - "day.profile"
        - yakuake.restart:
          - call.script: "$HOME/.config/autostart/yakuake.sh"
+    - plasma.notify: "Done!"
 NIGHT:
     title: "Night"
     description: "Dark colored profile."
     rules:
+      - plasma.notify: "Switching to night profile..."
       - atomio.config_find_replace:
         - "atom-light-ui"
         - "one-dark-ui"
@@ -34,7 +38,9 @@ NIGHT:
       - konsole.default_profile:
         - "night.profile"
         - konsole.restart:
+          - plasma.notify: "Restarted konsole"
       - yakuake.default_profile:
          - "night.profile"
          - yakuake.restart:
            - call.script: "$HOME/.config/autostart/yakuake.sh"
+      - plasma.notify: "Done!"

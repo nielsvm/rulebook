@@ -40,9 +40,10 @@ class Rule():
                     self.rules.append(Rule(item))
                 else:
                     exit("%s: parse error - unexpected format!" % self.id)
-        if isinstance(self.callable.__defaults__, tuple):
-            for default in self.callable.__defaults__:
-                self.arguments[action_args[len(self.arguments)]] = default
+        if len(action_args) != len(self.arguments):
+            if isinstance(self.callable.__defaults__, tuple):
+                for default in self.callable.__defaults__:
+                    self.arguments[action_args[len(self.arguments)]] = default
         if len(action_args) != len(self.arguments):
             exit("Action '%s' needs %d arguments, %d given " % (self.id, len(action_args), len(self.arguments)))
 

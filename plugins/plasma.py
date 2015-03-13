@@ -19,23 +19,38 @@ def colorscheme(scheme_path):
     KGlobalSettings.emitChange(KGlobalSettings.StyleChanged)
     KGlobalSettings.emitChange(KGlobalSettings.SettingsChanged)
     kdeapp.restart('org.kde.systemsettings', 'systemsettings')
-    kdeapp.restart('org.kde.plasma-desktop', 'plasma-desktop')
     kdeapp.restart('org.kde.krunner', 'krunner')
+    restart()
     return True
 
-@register_rule_action
+@register_action
+def notify(text, title = application.NAME):
+    """Send a desktop notification."""
+    knotify = kdeapp.get_dbus_object('org.kde.knotify', '/Notify')
+    knotify.event("warning", "kde", [], title, text, [], [], 0, 0, dbus_interface="org.kde.KNotify")
+    return True
+
+@check_binary("plasma-desktop")
+@register_action
+def restart():
+    """Restart plasma."""
+    return kdeapp.restart('org.kde.plasma-desktop', 'plasma-desktop')
+
+@check_binary("xdotool")
+@check_binary("plasma-desktop")
+@register_action
 def wallpaper(wallpaper_path):
     """Set Plasma's wallpaper to the image provided."""
     tmpfile = '/tmp/plasmawallpaperscript.js'
-    with open(tmpfile, 'w') as js:
-        js.write("var wallpaper = '%s';\n" % wallpaper_path)
-        js.write("var activity = activities()[0];\n")
-        js.write("activity.currentConfigGroup = new Array('Wallpaper', 'image');\n")
-        js.write("activity.writeConfig('wallpaper', wallpaper);\n")
-        js.write("activity.writeConfig('userswallpaper', wallpaper);\n")
-        js.write("activity.reloadConfig();\n")
     if kdeapp.running_dbus('org.kde.plasma-desktop'):
-        plasma = kdeapp.get_object('org.kde.plasma-desktop', '/App')
+        with open(tmpfile, 'w') as js:
+            js.write("var wallpaper = '%s';\n" % wallpaper_path)
+            js.write("var activity = activities()[0];\n")
+            js.write("activity.currentConfigGroup = new Array('Wallpaper', 'image');\n")
+            js.write("activity.writeConfig('wallpaper', wallpaper);\n")
+            js.write("activity.writeConfig('userswallpaper', wallpaper);\n")
+            js.write("activity.reloadConfig();\n")
+        plasma = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/App')
         plasma.loadScriptInInteractiveConsole(tmpfile)
         system('xdotool search --name "Shell Scripting Console" windowactivate key control+e control+w')
         return True
