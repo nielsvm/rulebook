@@ -1,2 +1,3 @@
 # toggle-desktop
-Profilize your (KDE) desktop and applications and let them adapt to day, night and other profiles you wish.
+
+![Toggle between day and night](anim.gif "Toggle between day and night")
