@@ -8,7 +8,6 @@ def ATOMDIR():
 @register_rule_action
 def find_replace(path, find, replace):
     """Rewrite a value in one of Atom's cson configuration files."""
-    path = rewrite(path)
     new = []
     with open(path, 'r') as old:
         for line in old:
@@ -21,4 +20,4 @@ def find_replace(path, find, replace):
 @register_rule_action
 def config_find_replace(find, replace):
     """Rewrite a value in ~/.atom/config.cson."""
-    return find_replace('$ATOMDIR/config.cson', find, replace)
+    return find_replace(rewrite('$ATOMDIR/config.cson'), find, replace)

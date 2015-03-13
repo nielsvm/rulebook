@@ -2,13 +2,12 @@ from os import system
 from PyKDE4.kdecore import KConfig
 from PyKDE4.kdeui import KGlobalSettings
 from core.action import register_rule_action
-from core.path import rewrite
 from core import kdeapp
 
 @register_rule_action
 def colorscheme(scheme_path):
     """Change KDE's global color scheme to the provided scheme."""
-    scheme = KConfig(rewrite(scheme_path))
+    scheme = KConfig(scheme_path)
     kdeglobals = KConfig('kdeglobals')
     for groupName in scheme.groupList():
         group = scheme.group(groupName)
@@ -29,7 +28,7 @@ def wallpaper(wallpaper_path):
     """Set Plasma's wallpaper to the image provided."""
     tmpfile = '/tmp/plasmawallpaperscript.js'
     with open(tmpfile, 'w') as js:
-        js.write("var wallpaper = '%s';\n" % rewrite(wallpaper_path))
+        js.write("var wallpaper = '%s';\n" % wallpaper_path)
         js.write("var activity = activities()[0];\n")
         js.write("activity.currentConfigGroup = new Array('Wallpaper', 'image');\n")
         js.write("activity.writeConfig('wallpaper', wallpaper);\n")

@@ -11,7 +11,7 @@ DAY:
     # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/centraal.jpg"
     - plasma.wallpaper: "$HOME/doc/pic/wallpaper/Nature/lavender-field.jpg"
     # - plasma.wallpaper: "$HOME/doc/pic/wallpaper/rotterdam/1498967_866539266745416_4122185541686443994_o.jpg"
-    - plasma.colorscheme: "$KDEDIR/share/apps/color-schemes/SoftMetalColder.colors"
+    - plasma.colorscheme: "$KDEDATA/color-schemes/SoftMetalColder.colors"
     - konsole.default_profile:
       - "day.profile"
       - konsole.restart:
@@ -29,8 +29,8 @@ NIGHT:
       - atomio.config_find_replace:
         - "solarized-light-syntax"
         - "solarized-dark-syntax"
-      - plasma.wallpaper: "/usr/share/wallpapers/Prato/"
-      - plasma.colorscheme: "/usr/share/kde4/apps/color-schemes/ObsidianCoast.colors"
+      - plasma.wallpaper: "$KDEWALLPAPER/Prato/"
+      - plasma.colorscheme: "$KDEDATA/color-schemes/ObsidianCoast.colors"
       - konsole.default_profile:
         - "night.profile"
         - konsole.restart:

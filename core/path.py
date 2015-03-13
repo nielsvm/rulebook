@@ -1,4 +1,5 @@
-from os.path import expanduser
+from core import exit
+from os.path import expanduser, exists
 
 prefixes = {}
 
@@ -12,8 +13,18 @@ def register_path_prefix(f):
 
 def rewrite(path):
     """Rewrites the given path and substitutes all registered prefixes."""
-    for var, prefix in prefixes.items():
-        path = path.replace(var, prefix)
+    for var, paths in prefixes.items():
+        if var in path:
+            if isinstance(paths, str):
+                if exists(path.replace(var, paths)):
+                    return path.replace(var, paths)
+                else:
+                    exit("UNABLE TO FIND '%s'!" % path.replace(var, paths))
+            elif isinstance(paths, list):
+                for _path in paths:
+                    if exists(path.replace(var, _path)):
+                        return path.replace(var, _path)
+                exit("UNABLE TO FIND '%s' IN:\n - %s" % (path, "\n - ".join(paths)))
     return path
 
 def user(path = None):

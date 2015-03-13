@@ -1,6 +1,6 @@
 from inspect import getargspec
 from core import exit
-import core.action
+import core.action, core.path
 
 class Rule():
     """
@@ -23,12 +23,18 @@ class Rule():
         # Build the arguments dictionary and register subrules.
         action_args = getargspec(self.callable)[0]
         if isinstance(payload[self.id], str):
-            self.arguments[action_args[0]] = payload[self.id]
+            if 'path' in action_args[0]:
+                self.arguments[action_args[0]] = core.path.rewrite(payload[self.id])
+            else:
+                self.arguments[action_args[0]] = payload[self.id]
         elif isinstance(payload[self.id], list):
             pos = 0
             for item in payload[self.id]:
                 if isinstance(item, str):
-                    self.arguments[action_args[pos]] = item
+                    if 'path' in action_args[pos]:
+                        self.arguments[action_args[pos]] = core.path.rewrite(item)
+                    else:
+                        self.arguments[action_args[pos]] = item
                     pos = pos+1
                 elif isinstance(item, dict):
                     self.rules.append(Rule(item))
