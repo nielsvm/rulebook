@@ -1,0 +1,7 @@
+#!/home/nvmourik/src/rulebook/rulebook
+- kde.notify: "Switching to daylight profile..."
+- kde.notify: "Done!"
+- kde.notify: "Done!"
+- plasma.theme: "default"
+- kde.notify: "Done!"
+- kde.notify: "Done!"

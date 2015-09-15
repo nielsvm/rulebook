@@ -1,5 +1,7 @@
-# kde4-profiles
-This application allows you to define profiles for your KDE 4 desktop, similarly to profiles found on your phone. You define your profiles in ``profiles.yml`` with simple rules, each rule executes a command with the given arguments and gets executed in order. Rules can contain nested rules that get executed once the main rule executed successfully.
+# Rulebook
+Rulebook is a rule-based automation utility and script interpreter for the Linux desktop, allowing you to do simple tasks like changing the wallpaper, brightness or audio volume. Instead of writing complex Bash scripts sending D-Bus commands, this tool provides a simple rule-based JSON syntax executing the commands you asked for.
+
+<!-- This application allows you to define profiles for your KDE 4 desktop, similarly to profiles found on your phone. You define your profiles in ``profiles.yml`` with simple rules, each rule executes a command with the given arguments and gets executed in order. Rules can contain nested rules that get executed once the main rule executed successfully.
 
 ![Toggle between day and night](anim.gif "Toggle between day and night")
 
@@ -36,4 +38,9 @@ NIGHT:
       - yakuake.restart:
         - kde.notify: "Restarted yakuake"
     - plasma.restart:
+``` -->
+
+# apt-get install
+```
+sudo apt-get install python3-psutil python3-pyparsing
 ```

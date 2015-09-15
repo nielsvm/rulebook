@@ -1,0 +1,5 @@
+#!/usr/bin/python3
+from core import parser
+
+# Parse and execute incoming rules via file or STDIN.
+parser.exec_from_input()

@@ -1,5 +1,5 @@
 import subprocess
-from core import exit
+from core.exceptions import MissingDependency
 
 registry = {}
 blacklist = []
@@ -20,7 +20,6 @@ def register_action(f):
     registry[id] = f
     return f
 
-
 def get(id):
     """Retrieves the action from the registry."""
     if has(id):
@@ -32,6 +31,6 @@ def has(id):
     if id in registry:
         for action in blacklist:
             if registry[id] == action['f']:
-                exit("Action '%s' exists, but needs binary '%s' installed!" % (id, action['binary']))
+                raise MissingDependency("dependency '%s' not found!" % action['binary'])
         return True
     return False

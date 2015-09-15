@@ -1,6 +1,5 @@
-from core import exit
 from os.path import expanduser, exists
-
+from core.exceptions import FileResourceNotFound
 prefixes = {}
 
 def add(variable, value):
@@ -19,12 +18,12 @@ def rewrite(path):
                 if exists(path.replace(var, paths)):
                     return path.replace(var, paths)
                 else:
-                    exit("UNABLE TO FIND '%s'!" % path.replace(var, paths))
+                    raise FileResourceNotFound(path.replace(var, paths))
             elif isinstance(paths, list):
                 for _path in paths:
                     if exists(path.replace(var, _path)):
                         return path.replace(var, _path)
-                exit("UNABLE TO FIND '%s' IN:\n - %s" % (path, "\n - ".join(paths)))
+                raise FileResourceNotFound(path, paths)
     return path
 
 def user(path = None):
