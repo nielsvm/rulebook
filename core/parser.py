@@ -38,8 +38,15 @@ class Parser():
             print("  ERROR OCCURED DURING RULES LOADING, ABORTED")
             print("=========================================================\n")
             print("%s\n" % e)
-            sys.exit()
+            sys.exit(3)
 
     def execute(self):
         """Execute the rules in order"""
-        self.rules.execute()
+        try:
+            self.rules.execute()
+        except Exception as e:
+            print("\n=========================================================")
+            print("  ERROR OCCURED DURING RULES EXECUTION, ABORTED HALF-WAY!")
+            print("=========================================================\n")
+            print("%s\n" % e)
+            sys.exit(3)

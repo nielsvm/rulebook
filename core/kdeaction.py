@@ -30,11 +30,11 @@ class KDEAction(Action):
         return []
 
     def execute4(self, **kwargs):
-        raise RuntimeException("Not implemented.")
+        raise Exception("KDE 4 support for this action not yet supported")
 
     def binary_dependencies5(self):
         """Lists any binary commands depended upon."""
         return []
 
     def execute5(self, **kwargs):
-        raise RuntimeException("Not implemented.")
+        raise Exception("KDE 5 support for this action not yet supported")
