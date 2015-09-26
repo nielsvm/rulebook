@@ -1,7 +1,7 @@
 #!/home/nvmourik/src/rulebook/rulebook
 - atomio.config_find_replace:
-  - "one-dark-ui"
   - "atom-light-ui"
+  - "one-dark-ui"
 - atomio.config_find_replace:
-  - "solarized-dark-syntax"
   - "solarized-light-syntax"
+  - "solarized-dark-syntax"
