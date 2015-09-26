@@ -32,38 +32,37 @@ class Rule():
                 raise RuleActionException(self.id, "missing dependencies: %s" % ', '.join(missing))
 
         # Build the arguments dictionary and register any found subrules.
-        action_args = getargspec(self.action.execute)[0]
-        del action_args[0]
+        argspec = self.action.arguments()
         if isinstance(payload[self.id], str):
-            if 'path' in action_args[0]:
+            if argspec[0][0] == 'path':
                 try:
-                    self.arguments[action_args[0]] = path.rewrite(payload[self.id])
+                    self.arguments['path'] = path.rewrite(payload[self.id])
                 except Exception as e:
                     raise RuleActionException(self.id, str(e))
             else:
-                self.arguments[action_args[0]] = payload[self.id]
+                self.arguments[argspec[0][0]] = payload[self.id]
         elif isinstance(payload[self.id], list):
             pos = 0
             for item in payload[self.id]:
                 if isinstance(item, str):
-                    if 'path' in action_args[pos]:
+                    if argspec[pos][0] == 'path':
                         try:
-                            self.arguments[action_args[pos]] = path.rewrite(item)
+                            self.arguments['path'] = path.rewrite(item)
                         except Exception as e:
                             raise RuleActionException(self.id, str(e))
                     else:
-                        self.arguments[action_args[pos]] = item
+                        self.arguments[argspec[pos][0]] = item
                     pos = pos+1
                 elif isinstance(item, dict):
                     self.rules.append(Rule(item))
                 else:
                     raise RuleParseException("unexpected format '%s'" % self.id)
-        if len(action_args) != len(self.arguments):
-            if isinstance(self.action.execute.__defaults__, tuple):
-                for default in self.action.execute.__defaults__:
-                    self.arguments[action_args[len(self.arguments)]] = default
-        if len(action_args) != len(self.arguments):
-            raise RuleMissingArguments(self.id, len(action_args), len(self.arguments))
+        if len(argspec) != len(self.arguments):
+            for arg in argspec:
+                if isinstance(arg[1], tuple):
+                    self.arguments[arg[0]] = arg[1][1]
+        if len(argspec) != len(self.arguments):
+            raise RuleMissingArguments(self.id, len(argspec), len(self.arguments))
 
     def execute(self):
         """Execute the rule and its subrules if the main rule succeeded."""
