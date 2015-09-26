@@ -1,5 +1,5 @@
 from plugins.plasma.reload import Reload
-from PyKDE4.kdecore import KConfig
+from core import kde
 
 class Theme(Reload):
     """Set Plasma's theme to the theme provided."""
@@ -9,12 +9,12 @@ class Theme(Reload):
             ('theme_name', 'The name of the theme to switch to.'),
         ]
 
-    def binary_dependencies(self):
+    def binary_dependencies4(self):
         return ['plasma-desktop']
 
-    def execute(self, theme_name):
-        config = KConfig("plasmarc")
-        group = config.group('Theme')
-        group.writeEntry('name', theme_name)
-        config.sync()
+    def execute4(self, theme_name):
+        kde.writeconfig('Theme', 'name', theme_name, 'plasmarc')
         return self.reload()
+
+    def binary_dependencies5(self):
+        return ['plasmashell']

@@ -11,5 +11,5 @@ class DefaultProfile(DefaultProfileKonsole):
     def binary_dependencies(self):
         return ['yakuake']
 
-    def execute(self, path, binary = 'yakuake'):
+    def execute4(self, path, binary = 'yakuake'):
         return DefaultProfileKonsole.execute(self, path, binary)

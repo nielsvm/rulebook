@@ -1,11 +1,11 @@
-from core.action import Action
-from core import kdeapp
+from core.kdeaction import KDEAction
+from core import kde
 
-class DefaultProfile(Action):
+class DefaultProfile(KDEAction):
     """Restart Yakuake, open terminal instances will get killed."""
 
-    def binary_dependencies(self):
+    def binary_dependencies4(self):
         return ['yakuake']
 
-    def execute(self):
-        return kdeapp.restart('org.kde.yakuake', 'yakuake')
+    def execute4(self):
+        return kde.restart('org.kde.yakuake', 'yakuake')

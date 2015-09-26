@@ -1,8 +1,7 @@
-from core.action import Action
-from core import application
-from core import kdeapp
+from core.kdeaction import KDEAction
+from core import application, kde
 
-class Notify(Action):
+class Notify(KDEAction):
     """Send a desktop notification."""
 
     def arguments(self):
@@ -11,7 +10,12 @@ class Notify(Action):
             ('title', "The notification title, defaults to '%s'." % application.NAME)
         ]
 
-    def execute(self, text, title = application.NAME):
-        knotify = kdeapp.get_dbus_object('org.kde.knotify', '/Notify')
+    def execute4(self, text, title = application.NAME):
+        knotify = kde.get_dbus_object('org.kde.knotify', '/Notify')
+        knotify.event("warning", "kde", [], title, text, [], [], 0, 0, dbus_interface="org.kde.KNotify")
+        return True
+
+    def execute5(self, text, title = application.NAME):
+        knotify = kde.get_dbus_object('org.kde.knotify', '/Notify')
         knotify.event("warning", "kde", [], title, text, [], [], 0, 0, dbus_interface="org.kde.KNotify")
         return True

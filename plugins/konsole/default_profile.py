@@ -1,7 +1,7 @@
-from PyKDE4.kdecore import KConfig
-from core.action import Action
+from core.kdeaction import KDEAction
+from core import kde
 
-class DefaultProfile(Action):
+class DefaultProfile(KDEAction):
     """Set Konsole's default profile."""
 
     def arguments(self):
@@ -9,13 +9,18 @@ class DefaultProfile(Action):
             ('path', 'The relative path to a Konsole .profile file.')
         ]
 
-    def binary_dependencies(self):
+    def binary_dependencies4(self):
         return ['konsole']
 
-    def execute(self, path, binary = 'konsole'):
-        bus_name = "org.kde.%s" % binary
-        config = KConfig("%src" % binary)
-        group = config.group('Desktop Entry')
-        group.writeEntry('DefaultProfile', profile_name)
-        config.sync()
+    def execute4(self, path, binary = 'konsole'):
+        kde.writeconfig('Desktop Entry', 'DefaultProfile',
+            path, "%src" % binary)
+        return True
+
+    def binary_dependencies5(self):
+        return ['konsole']
+
+    def execute5(self, path, binary = 'konsole'):
+        kde.writeconfig('Desktop Entry', 'DefaultProfile',
+            path, "%src" % binary)
         return True

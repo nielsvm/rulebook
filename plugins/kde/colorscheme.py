@@ -1,9 +1,7 @@
-from PyKDE4.kdecore import KConfig
-from PyKDE4.kdeui import KGlobalSettings
-from core.action import Action
-from core import kdeapp
+from core.kdeaction import KDEAction
+from core import kde
 
-class ColorScheme(Action):
+class ColorScheme(KDEAction):
     """Change KDE's global color scheme to the provided scheme."""
 
     def arguments(self):
@@ -11,7 +9,12 @@ class ColorScheme(Action):
             ('scheme_path', 'The path to a .colors scheme file.')
         ]
 
-    def execute(self, scheme_path):
+    def binary_dependencies4(self):
+        return ['plasma-desktop', 'krunner']
+
+    def execute4(self, scheme_path):
+        from PyKDE4.kdecore import KConfig
+        from PyKDE4.kdeui import KGlobalSettings
         scheme = KConfig(scheme_path)
         kdeglobals = KConfig('kdeglobals')
         for groupName in scheme.groupList():
@@ -23,8 +26,11 @@ class ColorScheme(Action):
         KGlobalSettings.emitChange(KGlobalSettings.PaletteChanged)
         KGlobalSettings.emitChange(KGlobalSettings.StyleChanged)
         KGlobalSettings.emitChange(KGlobalSettings.SettingsChanged)
-        if kdeapp.running_dbus('org.kde.plasma-desktop'):
-            p = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
+        if kde.running_dbus('org.kde.plasma-desktop'):
+            p = kde.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
             p.reparseConfiguration()
-        kdeapp.restart('org.kde.krunner', 'krunner')
+        kde.restart('org.kde.krunner', 'krunner')
         return True
+
+    def binary_dependencies5(self):
+        return ['plasmashell', 'krunner']

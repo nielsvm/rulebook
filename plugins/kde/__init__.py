@@ -2,6 +2,7 @@ __all__ = ['colorscheme', 'notify', 'widget_style']
 from plugins.kde import *
 from core.path import register_path_prefix, user
 from PyKDE4.kdecore import KStandardDirs
+from core import kde
 
 @register_path_prefix
 def KDEHOME():

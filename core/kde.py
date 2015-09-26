@@ -1,6 +1,21 @@
-from os import system
+import subprocess
+from os import system, getenv
 from time import sleep
 import dbus, psutil
+from core.action import has_dependency
+from core.exceptions import RuntimeException
+
+VERSION = getenv('KDE_SESSION_VERSION')
+def version():
+    """Find out what version of KDE is running."""
+    if VERSION == None:
+        raise RuntimeException('KDE_SESSION_VERSION variable not found!')
+    if VERSION == '4':
+        return VERSION
+    elif VERSION == '5':
+        return VERSION
+    else:
+        raise RuntimeException("KDE version %s not supported, sorry." % VERSION)
 
 def get_dbus_object(bus_name, path):
     """Short-hand for returning a D-BUS object on the session bus."""
@@ -56,3 +71,26 @@ def quit(bus_name, binary):
             quit(bus_name, binary)
         return True
     return False
+
+def writeconfig(group, key, value, file = None, type ='string'):
+    """Write KConfig entries transparently across KDE4/5."""
+    kdeversion = version()
+    args = []
+    if file:
+        args.append('--file %s' % file)
+    args.append('--group %s' % group)
+    args.append('--key %s' % key)
+    args.append('--type %s' % type)
+    args.append(value)
+    args = ' '.join(args)
+    if kdeversion == 4:
+        cmd = 'kwriteconfig'
+    elif kdeversion:
+        cmd = 'kwriteconfig5'
+    if not has_dependency(cmd):
+        raise RuntimeException('dependency %s not satisfied!' % cmd)
+    opt = {'shell': True, 'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE}
+    call = subprocess.call("%s %s" % (cmd, args), **opt)
+    if call != 0:
+        raise RuntimeException("%s %s" % (cmd, args))
+    return True
