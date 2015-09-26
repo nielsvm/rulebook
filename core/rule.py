@@ -1,6 +1,6 @@
 from inspect import getargspec
 from core.exceptions import *
-import core.action, core.path
+from core import action, path
 
 class Rule():
     """
@@ -10,26 +10,34 @@ class Rule():
     def __init__(self, payload):
         """Initialize the rule object."""
         self.id = ""
-        self.callable = None
+        self.action = None
         self.arguments = {}
         self.rules = []
 
-        # Parse and extract the action from the first dictionary key.
+        # The first dict key is the action ID, verify and instantiate it.
         self.id = list(payload)[0]
+        if not self.id in action.registry():
+            raise RuleActionsDoesNotExist(self.id)
         try:
-            has_action = core.action.has(self.id)
+            self.action = action.registry()[self.id]()
         except Exception as e:
             raise RuleActionException(self.id, str(e))
-        if not has_action:
-            raise RuleActionsDoesNotExist(self.id)
-        self.callable = core.action.get(self.id)
 
-        # Build the arguments dictionary and register subrules.
-        action_args = getargspec(self.callable)[0]
+        # Test for any missing dependencies and stop if anything is missing.
+        missing = self.action.has_missing_dependencies()
+        if len(missing):
+            if len(missing) == 1:
+                raise RuleActionException(self.id, "missing dependency %s" % missing[0])
+            else:
+                raise RuleActionException(self.id, "missing dependencies: %s" % ', '.join(missing))
+
+        # Build the arguments dictionary and register any found subrules.
+        action_args = getargspec(self.action.execute)[0]
+        del action_args[0]
         if isinstance(payload[self.id], str):
             if 'path' in action_args[0]:
                 try:
-                    self.arguments[action_args[0]] = core.path.rewrite(payload[self.id])
+                    self.arguments[action_args[0]] = path.rewrite(payload[self.id])
                 except Exception as e:
                     raise RuleActionException(self.id, str(e))
             else:
@@ -40,7 +48,7 @@ class Rule():
                 if isinstance(item, str):
                     if 'path' in action_args[pos]:
                         try:
-                            self.arguments[action_args[pos]] = core.path.rewrite(item)
+                            self.arguments[action_args[pos]] = path.rewrite(item)
                         except Exception as e:
                             raise RuleActionException(self.id, str(e))
                     else:
@@ -51,8 +59,8 @@ class Rule():
                 else:
                     raise RuleParseException("unexpected format '%s'" % self.id)
         if len(action_args) != len(self.arguments):
-            if isinstance(self.callable.__defaults__, tuple):
-                for default in self.callable.__defaults__:
+            if isinstance(self.action.execute.__defaults__, tuple):
+                for default in self.action.execute.__defaults__:
                     self.arguments[action_args[len(self.arguments)]] = default
         if len(action_args) != len(self.arguments):
             raise RuleMissingArguments(self.id, len(action_args), len(self.arguments))
@@ -60,7 +68,7 @@ class Rule():
     def execute(self):
         """Execute the rule and its subrules if the main rule succeeded."""
         try:
-            result = self.callable(**self.arguments)
+            result = self.action.execute(**self.arguments)
         except Exception as e:
             raise RuleActionException(self.id, str(e))
         if len(self.rules) and (result == True):

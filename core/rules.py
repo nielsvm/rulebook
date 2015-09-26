@@ -1,5 +1,4 @@
 from core.rule import Rule
-from plugins import *
 
 class Rules():
     """

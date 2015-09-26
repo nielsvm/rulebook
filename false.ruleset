@@ -1,7 +1,16 @@
 #!/home/nvmourik/src/rulebook/rulebook
 - kde.notify: "Switching to daylight profile..."
+- kde.notify:
+  - "Dit is de content"
+  - "Dit is de titel"
 - kde.notify: "Done!"
 - kde.notify: "Done!"
-- plasma.theme: "default"
 - kde.notify: "Done!"
+- kde.notify: "Switching to night profile..."
+#- atomio.config_find_replace:
+#  - "atom-light-ui"
+#  - "one-dark-ui"
+#- atomio.config_find_replace:
+#  - "solarized-light-syntax"
+#  - "solarized-dark-syntax"
 - kde.notify: "Done!"
