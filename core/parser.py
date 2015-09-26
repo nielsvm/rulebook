@@ -1,5 +1,5 @@
 import sys, os.path, yaml
-from core import exit, lock, rules
+from core import lock, rules
 
 def exec_from_input():
     """Parse and execute incoming rules via file or stdin."""
@@ -15,7 +15,9 @@ def exec_from_input():
             p.execute()
             lock.release()
         else:
-            exit("Another process seems to be running!")
+            print("Another process seems to be running!")
+            sys.exit(3) # error occured.
+        sys.exit(0) # all okay, no errors occured.
 
 class Parser():
     """

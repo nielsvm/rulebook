@@ -32,3 +32,10 @@ class RuleMissingArguments(RuleParseException):
     def __init__(self, id, needs, given):
         self.id = id
         self.msg = "Rule action '%s' needs %d arguments, %d given!" % (id, needs, given)
+
+class RuntimeException(Exception):
+    """General runtime exceptions blocking further code execution."""
+    def __init__(self, msg):
+        self.msg = msg
+    def __str__(self):
+        return "RUNTIME ERROR: %s." % self.msg
