@@ -46,7 +46,7 @@ class Parser():
             self.rules.execute()
         except Exception as e:
             print("\n=========================================================")
-            print("  ERROR OCCURED DURING RULES EXECUTION, ABORTED HALF-WAY!")
+            print("  ERROR OCCURED DURING RULES EXECUTION, UNCLEAN ABORT!")
             print("=========================================================\n")
             print("%s\n" % e)
             sys.exit(3)
