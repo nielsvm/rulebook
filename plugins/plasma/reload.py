@@ -1,26 +1,29 @@
-from core.action import Action
 from core import kde
 
-class Reload(Action):
+class Reload4(kde.KDE4Action):
     """Reload plasma's configuration."""
 
-    def binary_dependencies4(self):
+    def binary_dependencies(self):
         return ['plasma-desktop', 'krunner']
 
-    def binary_dependencies5(self):
+    def reload(self):
+        if kde.running_dbus('org.kde.plasma-desktop'):
+            p = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
+            p.reparseConfiguration()
+            return True
+        return False
+
+    def execute(self):
+        return self.reload()
+
+class Reload5(kde.KDE5Action):
+    """Reload plasma's configuration."""
+
+    def binary_dependencies(self):
         return ['plasmashell', 'krunner']
 
     def reload(self):
-        version = kde.version()
-        kde.restart('org.kde.krunner', 'krunner')
-        if version == '4':
-            if kde.running_dbus('org.kde.plasma-desktop'):
-                p = kdeapp.get_dbus_object('org.kde.plasma-desktop', '/MainApplication')
-                p.reparseConfiguration()
-                return True
-            return False
-        elif version == '5':
-            return kde.restart('org.kde.plasmashell', 'plasmashell')
+        return kde.restart('org.kde.plasmashell', 'plasmashell')
 
     def execute(self):
         return self.reload()

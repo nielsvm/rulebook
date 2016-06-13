@@ -1,17 +1,19 @@
-from core.kdeaction import KDEAction
 from core import kde
 
-class DefaultProfile(KDEAction):
+class Restart4(kde.KDE4Action):
     """Restart Konsole, open terminal instances will get killed."""
 
-    def binary_dependencies4(self):
+    def binary_dependencies(self):
         return ['konsole']
 
-    def execute4(self):
+    def execute(self):
         return kde.restart('org.kde.konsole', 'konsole')
 
-    def binary_dependencies5(self):
+class Restart5(kde.KDE5Action):
+    """Restart Konsole, open terminal instances will get killed."""
+
+    def binary_dependencies(self):
         return ['konsole']
 
-    def execute5(self):
+    def execute(self):
         return kde.restart('org.kde.konsole', 'konsole')

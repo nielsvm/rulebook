@@ -3,6 +3,9 @@ from core.action import Action
 class FindReplace(Action):
     """Rewrite a value in one of Atom's cson configuration files."""
 
+    def binary_dependencies(self):
+        return ['atom']
+
     def arguments(self):
         return [
             ('path', 'The configuration file to rewrite a value in.'),

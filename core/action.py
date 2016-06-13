@@ -28,8 +28,9 @@ class Registrar(type):
         if (len(parents)):
             cls._id = attrs['__module__'].replace('plugins.', '')
             cls._doc = attrs['__doc__']
-            if cls._id not in registry():
-                registry(cls)
+            if cls.should_action_register():
+                if cls._id not in registry():
+                    registry(cls)
         return type.__init__(cls, name, parents, attrs)
 
 class Action(metaclass=Registrar):
@@ -38,6 +39,10 @@ class Action(metaclass=Registrar):
     """
     _id = None
     _doc = ""
+
+    def should_action_register():
+        """Determines if this action should be registered and be loadable."""
+        return True
 
     def arguments(self):
         """A list with tuples describing the actions arguments."""

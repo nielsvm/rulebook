@@ -2,7 +2,7 @@ import subprocess
 from os import system, getenv
 from time import sleep
 import dbus, psutil
-from core.action import has_dependency
+from core.action import has_dependency, Action
 from core.exceptions import RuntimeException
 
 VERSION = getenv('KDE_SESSION_VERSION')
@@ -16,6 +16,24 @@ def version():
         return VERSION
     else:
         raise RuntimeException("KDE version %s not supported, sorry." % VERSION)
+
+class KDE4Action(Action):
+    """
+    Specific action base for KDE4 applications.
+    """
+
+    def should_action_register():
+        """Refuses to register when KDE4 isn't running."""
+        return version() == '4'
+
+class KDE5Action(Action):
+    """
+    Specific action base for KF5 applications.
+    """
+
+    def should_action_register():
+        """Refuses to register when KF5 isn't running."""
+        return version() == '5'
 
 def get_dbus_object(bus_name, path):
     """Short-hand for returning a D-BUS object on the session bus."""

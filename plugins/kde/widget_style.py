@@ -1,7 +1,6 @@
-from core.kdeaction import KDEAction
 from core import kde
 
-class WidgetStyle(KDEAction):
+class WidgetStyle4(kde.KDE4Action):
     """Change KDE's widget style to the style given."""
 
     def arguments(self):
@@ -9,10 +8,10 @@ class WidgetStyle(KDEAction):
             ('style_name', 'The name of the style, e.g. "oxygen".')
         ]
 
-    def binary_dependencies4(self):
+    def binary_dependencies(self):
         return ['plasma-desktop', 'krunner']
 
-    def execute4(self, style_name):
+    def execute(self, style_name):
         from PyKDE4.kdecore import KConfig
         from PyKDE4.kdeui import KGlobalSettings
         kdeglobals = KConfig("kdeglobals")
@@ -28,5 +27,13 @@ class WidgetStyle(KDEAction):
         kde.restart('org.kde.krunner', 'krunner')
         return True
 
-    def binary_dependencies5(self):
+class WidgetStyle5(kde.KDE5Action):
+    """Change KDE's widget style to the style given."""
+
+    def arguments(self):
+        return [
+            ('style_name', 'The name of the style, e.g. "oxygen".')
+        ]
+
+    def binary_dependencies(self):
         return ['plasmashell', 'krunner']
