@@ -11,8 +11,8 @@ class YakuakeProfile4(DefaultProfile4):
     def binary_dependencies(self):
         return ['yakuake']
 
-    def execute4(self, path, binary = 'yakuake'):
-        return DefaultProfileKonsole.execute(self, path, binary)
+    def execute(self, path, binary = 'yakuake'):
+        return DefaultProfile4.execute(self, path, binary)
 
 class YakuakeProfile5(DefaultProfile5):
     """Set Yakuakes's default Konsole profile."""
@@ -26,4 +26,4 @@ class YakuakeProfile5(DefaultProfile5):
         return ['yakuake']
 
     def execute(self, path, binary = 'yakuake'):
-        return DefaultProfileKonsole.execute(self, path, binary)
+        return DefaultProfile5.execute(self, path, binary)

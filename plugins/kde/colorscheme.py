@@ -1,4 +1,6 @@
+import configparser
 from core import kde
+from subprocess import call
 
 class ColorScheme4(kde.KDE4Action):
     """Change KDE's global color scheme to the provided scheme."""
@@ -40,4 +42,15 @@ class ColorScheme5(kde.KDE5Action):
         ]
 
     def binary_dependencies(self):
-        return ['plasmashell', 'krunner']
+        return ['plasmashell', 'krunner', 'dbus-send']
+
+    def execute(self, scheme_path):
+        config = configparser.RawConfigParser()
+        config.optionxform = str
+        config.read(scheme_path)
+        for group in config.sections():
+            for key in config[group]:
+                kde.writeconfig(group, key, config[group][key], 'kdeglobals')
+        call("dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:0 int32:0", shell=True)
+        call("dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig", shell=True)
+        return True

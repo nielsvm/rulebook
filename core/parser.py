@@ -11,12 +11,12 @@ def exec_from_input():
     if f is not None:
         p = Parser(f)
         p.parse()
-        if lock.acquire():
-            p.execute()
-            lock.release()
-        else:
-            print("Another process seems to be running!")
-            sys.exit(3) # error occured.
+        # if lock.acquire():
+        p.execute()
+            # lock.release()
+        # else:
+            # print("Another process seems to be running!")
+            # sys.exit(3) # error occured.
         sys.exit(0) # all okay, no errors occured.
 
 class Parser():

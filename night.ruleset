@@ -1,7 +1,22 @@
 #!/home/nvmourik/src/rulebook/rulebook
+- kde.notify: "Switching to night..."
+- plasma.wallpaper: "$KDEWALLPAPER/openSUSEdefault/"
+- kde.colorscheme: "$KDEDATA/color-schemes/175739-Material Dark.colors"
+- kde.icon_theme: "breeze-dark"
+- kde.widget_style: "breeze"
+- plasma.theme: "openSUSEdark"
+- konsole.default_profile:
+  - "night.profile"
+#  - konsole.restart:
+#    - kde.notify: "Restarted konsole"
+- yakuake.default_profile:
+   - "nielsvm.profile"
+   - yakuake.restart:
+     - run_script: "$HOME/.config/autostart/yakuake.sh"
 - atomio.config_find_replace:
   - "atom-light-ui"
-  - "one-dark-ui"
+  - "atom-dark-ui"
 - atomio.config_find_replace:
-  - "solarized-light-syntax"
-  - "solarized-dark-syntax"
+  - "atom-light-syntax"
+  - "atom-dark-syntax"
+- kde.notify: "Done!"

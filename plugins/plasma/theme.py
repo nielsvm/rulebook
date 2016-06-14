@@ -1,4 +1,5 @@
 from plugins.plasma.reload import Reload4, Reload5
+from core import kde
 
 class Theme4(Reload4):
     """Set Plasma's theme to the theme provided."""

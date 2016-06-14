@@ -24,5 +24,10 @@ class DefaultProfile5(kde.KDE5Action):
             ('path', 'The relative path to a Konsole .profile file.')
         ]
 
-    def binary_dependencies5(self):
+    def binary_dependencies(self):
         return ['konsole']
+
+    def execute(self, path, binary = 'konsole'):
+        kde.writeconfig('Desktop Entry', 'DefaultProfile',
+            path, "%src" % binary)
+        return True

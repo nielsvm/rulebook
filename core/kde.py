@@ -1,5 +1,5 @@
 import subprocess
-from os import system, getenv
+from os import getenv, popen
 from time import sleep
 import dbus, psutil
 from core.action import has_dependency, Action
@@ -11,9 +11,9 @@ def version():
     if VERSION == None:
         raise RuntimeException('KDE_SESSION_VERSION variable not found!')
     if VERSION == '4':
-        return VERSION
+        return 4
     elif VERSION == '5':
-        return VERSION
+        return 5
     else:
         raise RuntimeException("KDE version %s not supported, sorry." % VERSION)
 
@@ -24,7 +24,7 @@ class KDE4Action(Action):
 
     def should_action_register():
         """Refuses to register when KDE4 isn't running."""
-        return version() == '4'
+        return version() == 4
 
 class KDE5Action(Action):
     """
@@ -33,7 +33,7 @@ class KDE5Action(Action):
 
     def should_action_register():
         """Refuses to register when KF5 isn't running."""
-        return version() == '5'
+        return version() == 5
 
 def get_dbus_object(bus_name, path):
     """Short-hand for returning a D-BUS object on the session bus."""
@@ -67,7 +67,11 @@ def restart(bus_name, binary):
 def start(bus_name, binary):
     """Start a D-BUS connected QApplication."""
     if not running(bus_name, binary):
-        system(binary)
+        kdeversion = version()
+        if kdeversion == 4:
+            popen("kstart %s" % binary)
+        elif kdeversion == 5:
+            popen("kstart5 %s" % binary)
         sleep(1)
         if not running(bus_name, binary):
             raise Exception("Couldn't properly start %s" % binary)
@@ -95,15 +99,15 @@ def writeconfig(group, key, value, file = None, type ='string'):
     kdeversion = version()
     args = []
     if file:
-        args.append('--file %s' % file)
-    args.append('--group %s' % group)
-    args.append('--key %s' % key)
-    args.append('--type %s' % type)
+        args.append('--file "%s"' % file)
+    args.append('--group "%s"' % group)
+    args.append('--key "%s"' % key)
+    args.append('--type "%s"' % type)
     args.append(value)
     args = ' '.join(args)
     if kdeversion == 4:
         cmd = 'kwriteconfig'
-    elif kdeversion:
+    elif kdeversion == 5:
         cmd = 'kwriteconfig5'
     if not has_dependency(cmd):
         raise RuntimeException('dependency %s not satisfied!' % cmd)

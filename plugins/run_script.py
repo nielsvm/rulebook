@@ -1,5 +1,5 @@
 from core.action import Action
-from os import system
+from subprocess import call
 from time import sleep
 
 class RunScript(Action):
@@ -11,6 +11,6 @@ class RunScript(Action):
         ]
 
     def execute(self, path):
-        system(path)
+        call(path, shell=True)
         sleep(1)
         return True
