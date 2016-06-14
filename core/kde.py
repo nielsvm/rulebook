@@ -103,7 +103,7 @@ def writeconfig(group, key, value, file = None, type ='string'):
     args.append('--group "%s"' % group)
     args.append('--key "%s"' % key)
     args.append('--type "%s"' % type)
-    args.append(value)
+    args.append('"%s"' % value)
     args = ' '.join(args)
     if kdeversion == 4:
         cmd = 'kwriteconfig'
