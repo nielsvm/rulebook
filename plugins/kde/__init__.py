@@ -8,11 +8,13 @@ def KDEWALLPAPER():
     paths = []
     if kde.version() == '5':
         wallpaper = popen("kf5-config --path wallpaper")
-        for path in wallpaper.read().split(":"):
+        wallpaper = wallpaper.read().replace("\n", '').split(":")
+        for path in wallpaper:
             paths.append(path.rstrip('/'))
     elif kde.version() == '4':
         wallpaper = popen("kde4-config --path wallpaper")
-        for path in wallpaper.read().split(":"):
+        wallpaper = wallpaper.read().replace("\n", '').split(":")
+        for path in wallpaper:
             paths.append(path.rstrip('/'))
     return paths
 
@@ -21,10 +23,12 @@ def KDEDATA():
     paths = []
     if kde.version() == '5':
         data = popen("kf5-config --path data")
-        for path in data.read().split(":"):
+        data = data.read().replace("\n", '').split(":")
+        for path in data:
             paths.append(path.rstrip('/'))
     elif kde.version() == '4':
         data = popen("kde4-config --path data")
-        for path in data.read().split(":"):
+        data = data.read().replace("\n", '').split(":")
+        for path in data:
             paths.append(path.rstrip('/'))
     return paths

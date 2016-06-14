@@ -34,9 +34,9 @@ class Rule():
         # Build the arguments dictionary and register any found subrules.
         argspec = self.action.arguments()
         if isinstance(payload[self.id], str):
-            if argspec[0][0] == 'path':
+            if argspec[0][0].find("path"):
                 try:
-                    self.arguments['path'] = path.rewrite(payload[self.id])
+                    self.arguments[argspec[0][0]] = path.rewrite(payload[self.id])
                 except Exception as e:
                     raise RuleActionException(self.id, str(e))
             else:
@@ -45,9 +45,9 @@ class Rule():
             pos = 0
             for item in payload[self.id]:
                 if isinstance(item, str):
-                    if argspec[pos][0] == 'path':
+                    if argspec[pos][0].find("path"):
                         try:
-                            self.arguments['path'] = path.rewrite(item)
+                            self.arguments[argspec[pos][0]] = path.rewrite(item)
                         except Exception as e:
                             raise RuleActionException(self.id, str(e))
                     else:
