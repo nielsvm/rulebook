@@ -97,6 +97,15 @@ def quit(bus_name, binary):
 def writeconfig(group, key, value, file = None, type ='string'):
     """Write KConfig entries transparently across KDE4/5."""
     kdeversion = version()
+    if kdeversion == 4:
+        return writeconfig4(group, key, value, file, type)
+    elif kdeversion == 5:
+        return writeconfig5(group, key, value, file, type)
+    else:
+        raise RuntimeException('writeconfig has no KDE version to work for.')
+
+def writeconfig4(group, key, value, file = None, type ='string'):
+    """Write KConfig entries transparently for KDE4."""
     args = []
     if file:
         args.append('--file "%s"' % file)
@@ -105,10 +114,26 @@ def writeconfig(group, key, value, file = None, type ='string'):
     args.append('--type "%s"' % type)
     args.append('"%s"' % value)
     args = ' '.join(args)
-    if kdeversion == 4:
-        cmd = 'kwriteconfig'
-    elif kdeversion == 5:
-        cmd = 'kwriteconfig5'
+    cmd = 'kwriteconfig'
+    if not has_dependency(cmd):
+        raise RuntimeException('dependency %s not satisfied!' % cmd)
+    opt = {'shell': True, 'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE}
+    call = subprocess.call("%s %s" % (cmd, args), **opt)
+    if call != 0:
+        raise RuntimeException("%s %s" % (cmd, args))
+    return True
+
+def writeconfig5(group, key, value, file = None, type ='string'):
+    """Write KConfig entries transparently for KDE5."""
+    args = []
+    if file:
+        args.append('--file "%s"' % file)
+    args.append('--group "%s"' % group)
+    args.append('--key "%s"' % key)
+    args.append('--type "%s"' % type)
+    args.append('"%s"' % value)
+    args = ' '.join(args)
+    cmd = 'kwriteconfig5'
     if not has_dependency(cmd):
         raise RuntimeException('dependency %s not satisfied!' % cmd)
     opt = {'shell': True, 'stdout': subprocess.PIPE, 'stderr': subprocess.PIPE}

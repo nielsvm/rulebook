@@ -1,5 +1,6 @@
-from core import kde
 from subprocess import call
+from core import kde
+from core.action import has_dependency
 
 class IconTheme4(kde.KDE4Action):
     """Change KDE's icon theme."""
@@ -22,6 +23,8 @@ class IconTheme5(kde.KDE5Action):
         ]
 
     def execute(self, theme):
+        if (has_dependency("kwriteconfig")):
+            kde.writeconfig4("Icons", "Theme", theme, file = "kdeglobals")
         kde.writeconfig("Icons", "Theme", theme, file = "kdeglobals")
         for x in range(0, 5):
             call("dbus-send --session --type=signal /KIconLoader org.kde.KGlobalSettings.iconChanged int32:%d" % x, shell=True)

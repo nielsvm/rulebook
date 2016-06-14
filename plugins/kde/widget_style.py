@@ -1,5 +1,6 @@
 from core import kde
 from subprocess import call
+from core.action import has_dependency
 
 class WidgetStyle4(kde.KDE4Action):
     """Change KDE's widget style to the style given."""
@@ -40,6 +41,9 @@ class WidgetStyle5(kde.KDE5Action):
         return ['plasmashell', 'krunner']
 
     def execute(self, style_name):
+        if (has_dependency("kwriteconfig")):
+            kde.writeconfig4("General", "widgetStyle", style_name, 'kdeglobals')
+            kde.writeconfig4("KDE", "widgetStyle", style_name, 'kdeglobals')
         kde.writeconfig("General", "widgetStyle", style_name, 'kdeglobals')
         kde.writeconfig("KDE", "widgetStyle", style_name, 'kdeglobals')
         call("dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:2 int32:0", shell=True)
