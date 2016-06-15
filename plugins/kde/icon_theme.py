@@ -26,8 +26,10 @@ class IconTheme5(kde.KDE5Action):
         if (has_dependency("kwriteconfig")):
             kde.writeconfig4("Icons", "Theme", theme, file = "kdeglobals")
         kde.writeconfig("Icons", "Theme", theme, file = "kdeglobals")
-        for x in range(0, 5):
-            call("dbus-send --session --type=signal /KIconLoader org.kde.KGlobalSettings.iconChanged int32:%d" % x, shell=True)
+        # clear&&dbus-monitor "type=signal,interface='org.kde.KGlobalSettings'"
+        # clear&&dbus-monitor "type=signal,path=/KIconLoader"
+        for x in range(0, 6):
+            call("dbus-send --session --type=signal /KIconLoader org.kde.KIconLoader.iconChanged int32:%d" % x, shell=True)
             call("dbus-send --session --type=signal /KGlobalSettings org.kde.KGlobalSettings.notifyChange int32:4 int32:%d" % x, shell=True)
         call("dbus-send --session --type=signal /KWin org.kde.KWin.reloadConfig", shell=True)
         return True
